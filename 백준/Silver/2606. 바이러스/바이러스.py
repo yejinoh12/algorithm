@@ -1,4 +1,6 @@
-from collections import deque
+import sys
+
+sys.setrecursionlimit(1000)
 
 N = int(input())
 M = int(input())
@@ -10,16 +12,16 @@ for i in range(M):
     gp[b].append(a)
 
 visited = [False for i in range(N + 1)]
-q = deque([1])
-visited[1] = True
 
-ans = 0
-while q:
-    v = q.popleft()
+
+def dfs(v):
+    visited[v] = True
+    cnt = 1
     for w in gp[v]:
         if not visited[w]:
-            q.append(w)
-            visited[w] = True
-            ans += 1
+            # print(f"{w}번째 정점 방문")
+            cnt += dfs(w)
+    return cnt
 
-print(ans)
+
+print(dfs(1) - 1)
