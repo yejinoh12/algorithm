@@ -6,14 +6,9 @@ arr = []
 for _ in range(N):
     arr.append(list(map(int, input().strip())))
 
-cnt = 0  # 단지수(BFS 함수가 실행된 횟수)
-ans = []  # 각 단지내 집의 수: 큐 방문 횟수
-
 
 def bfs(x, y):
-    global cnt
-    cnt += 1
-    house = 1
+    cnt = 1
     q = deque([(x, y)])
     arr[y][x] = 0
     dx = [-1, 1, 0, 0]
@@ -28,20 +23,16 @@ def bfs(x, y):
             if arr[ny][nx] == 1:
                 q.append((nx, ny))
                 arr[ny][nx] = 0
-                house += 1
+                cnt += 1
+    return cnt
 
-    return house
 
-
-for i in range(N):
-    for j in range(N):
-        # print(f'(y={i},x={j})')
-        # print(arr[i][j])
-        if arr[i][j] == 1:
-            ans.append(bfs(j, i))
-        else:
-            pass
+ans = []
+for y in range(N):
+    for x in range(N):
+        if arr[y][x] == 1:
+            ans.append(bfs(x, y))
 
 ans.sort()
-print(cnt)
+print(len(ans))
 print('\n'.join(map(str, ans)))
